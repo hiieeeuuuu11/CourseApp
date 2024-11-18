@@ -30,6 +30,7 @@ function displayCourseDetail(data) {
     const chapters_id = document.getElementById('chapter_list');
     const course_info = document.getElementById('course_info');
     const description_id = document.getElementById('description');
+    const enrollCourseLink = document.getElementById("enrollCourseLink");
     const course = data.course;
     const chapters = data.chapterList;
     console.log(data)
@@ -54,6 +55,43 @@ function displayCourseDetail(data) {
                             </a>
                         </li>`
     description_id.innerHTML+=course.description;
+
+    enrollCourseLink.onclick = async function (event) {
+        event.preventDefault(); // Ngăn chặn hành vi mặc định
+
+        try {
+            // Gọi API booking
+            const bookingResponse = await fetch('http://localhost:8081/payment/booking', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'accept': '*/*'
+                },
+                body: JSON.stringify({
+                    "userId": 1, // Thay đổi userId nếu cần
+                    "courseId": [course.id] // Lấy courseId từ data
+                })
+            });
+            const bookingId = await bookingResponse.json();
+
+            // Gọi API submitOrder
+            const submitOrderResponse = await fetch(`http://localhost:8081/payment/submitOrder?id=${bookingId}`, {
+                method: 'POST',
+                headers: {
+                    'accept': '*/*'
+                }
+            });
+
+            const submitOrderData = await submitOrderResponse.json();
+            const paymentUrl = submitOrderData.paymentUrl; // Lấy paymentUrl từ response
+            console.log(paymentUrl); 
+
+            // Chuyển hướng người dùng đến trang thanh toán
+            window.location.href = paymentUrl; // Mở trang thanh toán trực tiếp
+        } catch (error) {
+            console.error("Có lỗi xảy ra:", error);
+        }
+    };
 }
 
 function showError(message) {
