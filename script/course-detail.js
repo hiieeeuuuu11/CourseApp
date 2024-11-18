@@ -29,7 +29,7 @@ function displayCourseDetail(data) {
     const main_image = document.getElementById('main_image_id');
     const chapters_id = document.getElementById('chapter_list');
     const course_info = document.getElementById('course_info');
-    const discription_id = document.getElementById('discription');
+    const description_id = document.getElementById('description');
     const course = data.course;
     const chapters = data.chapterList;
     console.log(data)
@@ -38,7 +38,7 @@ function displayCourseDetail(data) {
         chapters_id.innerHTML+=`<li class="justify-content-between d-flex">
                                     <p>${chapter.title}</p>
                                     <p>${chapter.description}</p>
-                                    <a class="primary-btn text-uppercase" href="#">LEARN</a>
+                                    <a class="primary-btn text-uppercase" href="./chapter-detail.html?id=${chapter.id}">LEARN</a>
                                 </li>`
     });
     course_info.innerHTML+=`                        <li>
@@ -53,7 +53,7 @@ function displayCourseDetail(data) {
                                 <span>${course.price.toLocaleString('vi-VN')} VNĐ</span>
                             </a>
                         </li>`
-    discription_id.innerHTML+=course.description;
+    description_id.innerHTML+=course.description;
 }
 
 function showError(message) {
