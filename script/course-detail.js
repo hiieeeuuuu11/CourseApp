@@ -31,7 +31,6 @@ function displayCourseDetail(data) {
     const course_info = document.getElementById('course_info');
     const description_id = document.getElementById('description');
     const enrollCourseLink = document.getElementById("enrollCourseLink");
-
     const course = data.course;
     const chapters = data.chapterList;
     console.log(data)
@@ -56,6 +55,7 @@ function displayCourseDetail(data) {
                             </a>
                         </li>`
     description_id.innerHTML+=course.description;
+
     enrollCourseLink.onclick = async function (event) {
         event.preventDefault(); // Ngăn chặn hành vi mặc định
 
