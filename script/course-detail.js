@@ -31,9 +31,20 @@ function displayCourseDetail(data) {
     const course_info = document.getElementById('course_info');
     const description_id = document.getElementById('description');
     const enrollCourseLink = document.getElementById("enrollCourseLink");
-
     const course = data.course;
     const chapters = data.chapterList;
+
+    fetch(`http://localhost:8081/course/checkEnrollment?studentId=1&courseId=${course.id}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data === true) {
+                enrollCourseLink.style.display = 'none';  
+            }
+        })
+        .catch(error => {
+            console.error("Error checking enrollment:", error);
+        });
+
     console.log(data)
     main_image.innerHTML = `<img class="img-fluid" src="${course.imageUrl}" alt="">`;
     chapters.forEach(chapter => {
