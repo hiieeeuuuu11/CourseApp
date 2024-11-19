@@ -67,6 +67,7 @@ function displayCourseDetail(data) {
                             </a>
                         </li>`
     description_id.innerHTML+=course.description;
+
     enrollCourseLink.onclick = async function (event) {
         event.preventDefault(); // Ngăn chặn hành vi mặc định
 
