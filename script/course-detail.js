@@ -1,3 +1,5 @@
+const stars = document.querySelectorAll('#rating-stars .ti-star');
+
 document.addEventListener('DOMContentLoaded', function() {
     // Lấy course ID từ URL parameter
     const urlParams = new URLSearchParams(window.location.search);
@@ -19,12 +21,70 @@ async function fetchCourseDetail(courseId) {
         }
         const data = await response.json();
         displayCourseDetail(data);
+        const rating = await getRating(1, courseId);
+        
+        // Kiểm tra giá trị rating
+        console.log(rating); 
+
+        // Cập nhật UI với rating
+        updateStarUI(rating);
     } catch (error) {
         console.error('Error:', error);
         showError('Có lỗi xảy ra khi tải thông tin khóa học');
     }
 }
+async function getRating(studentId,courseId) {
+    try {
+        const response = await fetch(`http://localhost:8081/course/getRating?studentId=${studentId}&courseId=${courseId}`);
+        
+        // Kiểm tra nếu response không hợp lệ (ví dụ: status code khác 200)
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
 
+        // Chuyển đổi response thành JSON (trong trường hợp API trả về JSON)
+        const rating = await response.json();
+
+        // Sử dụng rating sau khi nhận được giá trị
+        console.log("Rating:", rating); // In ra giá trị rating
+        return rating; // Hoặc làm gì đó với giá trị rating
+    } catch (error) {
+        console.error("Error fetching rating:", error);
+    }
+}
+
+function sendReview(enrollmentId, rating) {
+    fetch(`http://localhost:8081/course/updateReviews?enrollmentId=${enrollmentId}&rating=${rating}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': '*/*'
+        }
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Review updated successfully");
+            alert("Cảm ơn bạn đã đánh giá!");
+        } else {
+            console.error("Failed to update review");
+            alert("Có lỗi xảy ra khi cập nhật đánh giá!");
+        }
+    })
+    .catch(error => {
+        console.error("Error while updating review:", error);
+    });
+}
+
+// Cập nhật giao diện sao
+function updateStarUI(rating) {
+    stars.forEach(star => {
+        if (parseInt(star.getAttribute('data-value')) <= rating) {
+            star.classList.add('checked'); // Sao được đánh dấu
+        } else {
+            star.classList.remove('checked');
+        }
+    });
+}
 function displayCourseDetail(data) {
     const main_image = document.getElementById('main_image_id');
     const chapters_id = document.getElementById('chapter_list');
@@ -37,8 +97,18 @@ function displayCourseDetail(data) {
     fetch(`http://localhost:8081/course/checkEnrollment?studentId=1&courseId=${course.id}`)
         .then(response => response.json())
         .then(data => {
-            if (data === true) {
-                enrollCourseLink.style.display = 'none';  
+            if (data.status) {
+                enrollCourseLink.style.display = 'none';     
+                let rating = 0;
+
+                stars.forEach(star => {
+                    star.addEventListener('click', (event) => {
+                        rating = parseInt(event.target.getAttribute('data-value')); // Lấy giá trị sao được chọn
+                        updateStarUI(rating);
+                        console.log(data.id, data.status, rating);
+                        sendReview(data.id, rating); // Gửi request cập nhật rating
+                    });
+                });         
             }
         })
         .catch(error => {
