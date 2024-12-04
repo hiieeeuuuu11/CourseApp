@@ -11,6 +11,7 @@
     <title>Course App Education</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.css" />
+    <link rel="stylesheet" href="css/chatbot.css" />
     <link rel="stylesheet" href="css/flaticon.css" />
     <link rel="stylesheet" href="css/themify-icons.css" />
     <link rel="stylesheet" href="vendors/owl-carousel/owl.carousel.min.css" />
@@ -701,6 +702,27 @@
     </div>
     <!--================ End Testimonial Area =================-->
 
+    <button class="chat-button">💬</button>
+    
+    <div class="chat-container">
+        <div class="chat-header">
+            E-Learning Assistant
+            <span class="close-chat">✖</span>
+        </div>
+        <div class="chat-messages">
+            <div class="message bot">
+                <div class="avatar">B</div>
+                <div class="message-content">
+                    Hi! I'm your learning assistant. How can I help you today?
+                </div>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input-detail" placeholder="Type your message here...">
+            <button id="send-button">Send</button>
+        </div>
+    </div>
+
     <!--================ Start footer Area  =================-->
     <footer class="footer-area section_gap">
       <div class="container">
@@ -792,6 +814,7 @@
     <script src="js/owl-carousel-thumb.min.js"></script>
     <script src="js/jquery.ajaxchimp.min.js"></script>
     <script src="js/mail-script.js"></script>
+    <script src="script/chat-bot.js"></script>
     <!--gmaps Js-->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCjCGmQ0Uq4exrzdcL6rvxywDDOvfAu6eE"></script>
     <script src="js/gmaps.min.js"></script>
