@@ -42,7 +42,7 @@ function displayCourses(courses) {
     const courseCard = `
         <div class="single_course">
                 <div class="course_head">
-                  <img class="img-fluid" src="${course.imageUrl}" alt="" />
+                  <img class="img-fluid" src="./img/courses/c1.jpg" alt="" />
                 </div>
                 <div class="course_content">
                   <span class="price">${course.price.toLocaleString('vi-VN')} VNĐ</span>

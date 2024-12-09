@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const chapterId = urlParams.get('id');
     
     if (chapterId) {
-        fetchCourseDetail(chapterId);
+        fetchChapterDetail(chapterId);
         console.log(chapterId)
     } else {
         showError('Không tìm thấy thông tin chương');
@@ -28,6 +28,7 @@ async function fetchChapterDetail(chapterId) {
 function displayChapterDetail(data) {
     const lesson_id = document.getElementById("lesson_list")
     const lesson_list = data.lessonList;
+    console.log(lesson_list);
     lesson_list.forEach(lesson => {
         lesson_id.innerHTML+=`<li class="justify-content-between d-flex">
                                     <p>${lesson.title}</p>
