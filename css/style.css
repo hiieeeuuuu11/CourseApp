@@ -565,7 +565,11 @@ button:focus {
   -webkit-transition: all 0.3s ease 0s;
   -moz-transition: all 0.3s ease 0s;
   -o-transition: all 0.3s ease 0s;
-  transition: all 0.3s ease 0s; }
+  transition: all 0.3s ease 0s;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+ }
   .single_course .course_head {
     position: relative;
     overflow: hidden; }
@@ -604,6 +608,7 @@ button:focus {
     padding: 30px 26px;
     background: #f9f9ff;
     position: relative;
+    flex-grow: 1;
     -webkit-transition: all 0.3s ease 0s;
     -moz-transition: all 0.3s ease 0s;
     -o-transition: all 0.3s ease 0s;
@@ -620,9 +625,15 @@ button:focus {
       .single_course .course_content h4 a {
         color: #002347; }
     .single_course .course_content p {
-      margin: 0; }
+      margin: 0;
+     }
     .single_course .course_content .course_meta {
-      margin-top: 25px; }
+      margin-top: 25px;
+      position: relative;
+      bottom: 0%;
+      left: 0;
+      right: 0;
+     }
       .single_course .course_content .course_meta .meta_info a {
         color: #002347; }
   .single_course .authr_meta img {

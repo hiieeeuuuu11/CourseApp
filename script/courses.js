@@ -40,7 +40,7 @@ function displayCourses(courses) {
     const chapters = courseData.chapterList;
     const provider = courseData.provider;
     const courseCard = `
-        <div class="single_course">
+        <div class="single_course col-lg-4">
                 <div class="course_head">
                   <img class="img-fluid" src="./img/courses/c1.jpg" alt="" />
                 </div>
