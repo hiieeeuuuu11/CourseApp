@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function fetchCourses() {
   try {
-    const response = await fetch("http://localhost:8081/course");
+    const response = await fetch("http://localhost:8081/course/recommend/mf/1");
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -35,14 +35,12 @@ function displayCourses(courses) {
     return;
   }
 
-  courses.forEach((courseData) => {
-    const course = courseData.course;
-    const chapters = courseData.chapterList;
-    const provider = courseData.provider;
+  courses.forEach((course) => {
+    const provider = course.provider;
     const courseCard = `
         <div class="single_course col-lg-4">
                 <div class="course_head">
-                  <img class="img-fluid" src="./img/courses/c1.jpg" alt="" />
+                  <img class="img-fluid" src="${course.imageUrl}" alt="" />
                 </div>
                 <div class="course_content">
                   <span class="price">${course.price.toLocaleString('vi-VN')} VNĐ</span>
