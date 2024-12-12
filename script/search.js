@@ -1,11 +1,13 @@
 document.addEventListener("DOMContentLoaded", function () {
-  fetchCourses();
+  const urlParams = new URLSearchParams(window.location.search);
+  const q = urlParams.get("q");
+  fetchCourses(q);
 });
 
-async function fetchCourses() {
+async function fetchCourses(q) {
   try {
     const token = localStorage.getItem("token");
-    const response = await fetch("http://localhost:8081/course/recommend/mf", {
+    const response = await fetch("http://localhost:8081/course/bert/"+q, {
       headers: {
         Authorization: `Bearer ${token}`
       }

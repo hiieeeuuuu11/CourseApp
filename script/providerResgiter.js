@@ -14,10 +14,12 @@ form.addEventListener('submit', async function(event) {
 
     try {
         // Gọi API bằng fetch
+        const token = localStorage.getItem("token");
         const response = await fetch('http://localhost:8081/provider-courses', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
             },
             body: JSON.stringify(data)
         });

@@ -3,6 +3,7 @@ async function checkAuth() {
     
     if (!token) {
         document.getElementById('user-section').textContent = "Login";
+        document.getElementById('user-section').href = "../login.html";
       return;
     }
   
@@ -22,6 +23,7 @@ async function checkAuth() {
       
       // Hiển thị tên người dùng
       document.getElementById('user-section').textContent = userData.username;
+        document.getElementById('user-section').href = "#";
   
     } catch (error) {
       console.error('Error:', error);
@@ -29,5 +31,21 @@ async function checkAuth() {
       localStorage.removeItem('token');
     }
 }
+
+document.getElementById('user-section').addEventListener('click', () => {
+    const token = localStorage.getItem('token');
+  
+    if (token) {
+      window.location.href = "../personal-page.html";
+    }
+  });
   
 document.addEventListener('DOMContentLoaded', checkAuth);
+
+document.getElementById('search_input').addEventListener('keypress', function (e) {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    const query = e.target.value;
+    window.location.href = `search.html?q=${query}`;
+  }
+});

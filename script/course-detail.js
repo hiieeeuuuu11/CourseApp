@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (courseId) {
     fetchCourseDetail(courseId);
+    fetchFamilierCourses(courseId);
     console.log(courseId);
   } else {
     showError("Không tìm thấy thông tin khóa học");
@@ -15,7 +16,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function fetchCourseDetail(courseId) {
   try {
-    const response = await fetch(`http://localhost:8081/course/${courseId}`);
+    const token = localStorage.getItem("token");
+    const response = await fetch(`http://localhost:8081/course/${courseId}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
@@ -35,8 +41,13 @@ async function fetchCourseDetail(courseId) {
 }
 async function getRating(studentId, courseId) {
   try {
+    const token = localStorage.getItem("token");
     const response = await fetch(
-      `http://localhost:8081/course/getRating?studentId=${studentId}&courseId=${courseId}`
+      `http://localhost:8081/course/getRating?studentId=${studentId}&courseId=${courseId}`,{
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      }
     );
 
     // Kiểm tra nếu response không hợp lệ (ví dụ: status code khác 200)
@@ -56,13 +67,14 @@ async function getRating(studentId, courseId) {
 }
 
 function sendReview(enrollmentId, rating) {
+  const token = localStorage.getItem("token");
   fetch(
     `http://localhost:8081/course/updateReviews?enrollmentId=${enrollmentId}&rating=${rating}`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Accept: "*/*",
+         Authorization: `Bearer ${token}`
       },
     }
   )
@@ -98,9 +110,14 @@ function displayCourseDetail(data) {
   const enrollCourseLink = document.getElementById("enrollCourseLink");
   const course = data.course;
   const chapters = data.chapterList;
-
+  
+  const token = localStorage.getItem("token");
   fetch(
-    `http://localhost:8081/course/checkEnrollment?studentId=1&courseId=${course.id}`
+    `http://localhost:8081/course/checkEnrollment?studentId=1&courseId=${course.id}`,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    }
   )
     .then((response) => response.json())
     .then((data) => {
@@ -154,6 +171,7 @@ function displayCourseDetail(data) {
 
     try {
       // Gọi API booking
+      const token = localStorage.getItem("token");
       const bookingResponse = await fetch(
         "http://localhost:8081/payment/booking",
         {
@@ -161,6 +179,7 @@ function displayCourseDetail(data) {
           headers: {
             "Content-Type": "application/json",
             accept: "*/*",
+            Authorization: `Bearer ${token}`
           },
           body: JSON.stringify({
             userId: 1, // Thay đổi userId nếu cần
@@ -177,6 +196,7 @@ function displayCourseDetail(data) {
           method: "POST",
           headers: {
             accept: "*/*",
+            Authorization: `Bearer ${token}`
           },
         }
       );
@@ -202,13 +222,14 @@ function showError(message) {
 }
 
 
-document.addEventListener("DOMContentLoaded", function () {
-  fetchFamilierCourses();
-});
-
-async function fetchFamilierCourses() {
+async function fetchFamilierCourses(courseId) {
   try {
-    const response = await fetch("http://localhost:8081/course/recommend/mi/1");
+    const token = localStorage.getItem("token");
+    const response = await fetch("http://localhost:8081/course/recommend/mi/"+courseId,{
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
     if (!response.ok) {
       throw new Error("Network response was not ok");
     }
